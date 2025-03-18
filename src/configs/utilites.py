@@ -36,6 +36,8 @@ def extract_version(filename):
     return int(match.group(1)) if match else float('inf')  # Return a large number if no match
 
 
+
+
 def execute_sql_files():
     # Connect to the database
     conn = psycopg2.connect(DATABASE_URL)
@@ -55,18 +57,28 @@ def execute_sql_files():
     cursor.execute("SELECT file_name FROM migrations;")
     executed_files = {row[0] for row in cursor.fetchall()}
 
+    # Get absolute path for the database directory
+    BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    DATABASE_DIR = os.path.join(BASE_DIR, "database")  # Correct path
 
-
-    BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))  # Get project root
-    DATABASE_DIR = os.path.join(BASE_DIR, "database")
+    # Ensure the directory exists
+    if not os.path.exists(DATABASE_DIR):
+        raise FileNotFoundError(f"Database directory not found: {DATABASE_DIR}")
 
     sql_files = sorted(os.listdir(DATABASE_DIR), key=extract_version)
+    
     for file_name in sql_files:
         if file_name not in executed_files:
-            with open(f"database/{file_name}", "r") as file:
+            file_path = os.path.join(DATABASE_DIR, file_name)  # Correct path
+
+            # Ensure the file exists
+            if not os.path.isfile(file_path):
+                raise FileNotFoundError(f"SQL file not found: {file_path}")
+
+            with open(file_path, "r") as file:
                 sql = file.read()
 
-                # Extract table name from SQL (assuming one table per file)
+                # Extract table name (assuming one table per file)
                 first_line = sql.strip().split("\n")[0].strip().lower()
                 if first_line.startswith("create table"):
                     table_name = first_line.split(" ")[2]
@@ -78,7 +90,7 @@ def execute_sql_files():
                         continue
 
                 # Execute the SQL script
-                print(file_name)
+                print(f"Executing: {file_name}")
                 cursor.execute(sql)
                 cursor.execute("INSERT INTO migrations (file_name) VALUES (%s);", (file_name,))
                 conn.commit()
