@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-# Define your database URL (replace with your actual DB details)
+
 DATABASE_URL = "postgresql://postgres:root@localhost:5432/mathmentor"
 
 
