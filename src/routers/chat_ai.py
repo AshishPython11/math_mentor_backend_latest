@@ -1,4 +1,4 @@
-from src.services.chatai import chat_with_ai_logic, chat_with_get_logic
+from src.services.chat_ai import chat_with_ai_logic, chat_with_get_logic
 from src.schemas.user import  ChatRequest, UpdateChatRequest, DeleteResponse,ConversationResponse,ChatHistoryResponse, RenameConversationRequest,ImageChatSchema
 from sqlalchemy.orm import Session
 from src.configs.config import get_db
@@ -9,7 +9,7 @@ from src.configs.utilites import get_current_user
 from sqlalchemy import select , insert , update, delete ,exists
 import openai
 import os
-from src.services.chatai import client 
+from src.services.chat_ai import client 
 import shutil
 
 from src.common.app_constants import AppConstants
@@ -17,7 +17,7 @@ from src.common.messages import Messages
 from uuid import UUID, uuid4
 from datetime import datetime
 import traceback
-from src.services.chatai import(
+from src.services.chat_ai import(
 get_conversation_messages_service,
 rename_conversation_service,
 soft_delete_conversation_service,

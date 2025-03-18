@@ -4,8 +4,9 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from logging.config import dictConfig
 from src.routers.auth import router as auth_router
-from src.routers.chatai import router as chat_router
+from src.routers.chat_ai import router as chat_router
 from src.routers.payment import router as payment_router
+
 from src.configs.utilites import execute_sql_files
 
 
