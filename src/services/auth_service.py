@@ -106,7 +106,8 @@ async def forgot_password_service(request, db: Session, background_tasks: Backgr
         user = db.execute(query).fetchone()
    
         if not user:
-            return app_response.set_response(AppConstants.DATA_NOT_FOUND, {}, Messages.EMAIL_NOT_FOUND, False)
+            app_response.set_response(AppConstants.DATA_NOT_FOUND, {}, Messages.EMAIL_NOT_FOUND, False)
+            return app_response
 
 
         otp = generate_otp()
