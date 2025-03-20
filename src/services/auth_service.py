@@ -15,8 +15,7 @@ from src.common.app_constants import AppConstants
 from src.common.messages import Messages
 from sqlalchemy.exc import IntegrityError
 # In your auth_service.py (or any other file)
-from src.configs.settings import settings
-
+from src.configs.settings import settings 
 
 app_response = AppResponse()
 tables = Tables()
@@ -176,7 +175,7 @@ def reset_password_service(request, db: Session):
     db.execute(tables.user_otps.delete().where(tables.user_otps.c.user_id == user.id))
     db.commit()
 
-    app_response.set_response(AppConstants.CODE_INVALID_REQUEST, {}, Messages.PASSWORD_RESET_SUCCESSFUL, False)
+    app_response.set_response(AppConstants.CODE_INVALID_REQUEST, {}, Messages.PASSWORD_RESET_SUCCESSFUL, True)
     return app_response
 
 
