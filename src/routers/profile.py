@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from src.configs.config import get_db
 from src.services.profile import get_student_profile_service ,update_student_profile_service
-from src.schemas.user import UpdateStudentProfileSchema
+from src.schemas.profile import UpdateStudentProfileSchema
 from src.configs.utilites import get_current_user
 from fastapi import BackgroundTasks
 from src.common.app_response import AppResponse
