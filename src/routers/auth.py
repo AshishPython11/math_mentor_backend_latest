@@ -33,6 +33,7 @@ app_response = AppResponse()
 
 @router.post("/signup")
 async def signup(user: UserSignup, db: Session = Depends(get_db)):
+    # logger.info(f"Signup attempt for user: {user.email}")
     app_response = signup_service(user, db)
     return app_response
 
@@ -47,7 +48,7 @@ async def forgot_password(background_tasks: BackgroundTasks , request: ForgotPas
     return app_response
 
 @router.post("/reset-password")
-async def reset_password(request: ResetPassword, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+async def reset_password(request: ResetPassword, db: Session = Depends(get_db)):
     app_response = reset_password_service(request, db)
     return app_response
 
